@@ -2,7 +2,7 @@
 
 * Change to project root
 * Clone repo
-* npm install
+* `npm install`
 * Change to public root
 * `npm install`
 * `gulp`
