@@ -29,18 +29,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 /*******************************************************************************
 
-                    ROUTES
+                    PULL IN ROUTES AND START SERVER
 
 *******************************************************************************/
 
-app.get('/', function(req, res){ res.sendFile('./public/index.html'); });
-// app.get('/test', function(req, res){ res.sendFile('./public/index.html'); });
-
-/*******************************************************************************
-
-                    START SERVER
-
-*******************************************************************************/
+require('./backend_app/routes');
 
 var server = app.listen(config.port, function () {
     var host = server.address().address

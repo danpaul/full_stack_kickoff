@@ -3,6 +3,7 @@ This repo provides a foundation to build single page apps with a Node/Express ba
 
 The Stack:
 * jQuery
+* SASS
 * [Foundation](http://foundation.zurb.com/)
 * [Browserify](http://browserify.org/)
 * [React](https://facebook.github.io/react/)
