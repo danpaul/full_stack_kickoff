@@ -34,6 +34,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 *******************************************************************************/
 
 app.get('/', function(req, res){ res.sendFile('./public/index.html'); });
+// app.get('/test', function(req, res){ res.sendFile('./public/index.html'); });
 
 /*******************************************************************************
 

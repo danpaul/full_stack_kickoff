@@ -1,31 +1,68 @@
-// gulpfile.js 
 var gulp = require('gulp');
 var server = require('gulp-express');
 
+var browserify = require('browserify');
+var gulp = require('gulp');
+var source = require("vinyl-source-stream");
+var reactify = require('reactify');
+var uglify = require('gulp-uglify');
+var sass = require('gulp-sass');
+var minifyCss = require('gulp-minify-css');
+var nodemon = require('gulp-nodemon');
+
+// build JS app
+gulp.task('main-build', function(){
+  var b = browserify();
+  b.transform(reactify); // use the reactify transform
+  b.add('./frontend_app/app/main.jsx');
+  return b.bundle()
+    .pipe(source('compiled.js'))
+    .pipe(gulp.dest('./public/js'))
+});
+
+// minify js
+gulp.task('minify', ['main-build'], function(){
+  gulp
+    .src('./public/js/compiled.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('./public/js/min'))
+})
+
+// build and minify css
+gulp.task('style-build', function(){
+  gulp.src('./frontend_app/scss/main.scss')
+    .pipe(sass())
+    .pipe(minifyCss())
+    .pipe(gulp.dest('./public/css'))
+})
+
+// start nodemon
+// gulp.task('start-nodemon', function () {
+//     nodemon({
+//         script: './index.js',
+//         ext: 'js html',
+//         env: { 'NODE_ENV': 'development' }
+//     })
+// })
+
+// watch appropriate files and reload after
 gulp.task('server', function () {
 
     // Start the server at the beginning of the task 
     server.run(['index.js']);
- 
-    // Restart the server when file changes 
-    gulp.watch(['./frontend_app/app/**/*'], server.notify);
-    gulp.watch(['./public/**/*'], server.notify);
-    gulp.watch(['./public/index.html'], server.notify);
 
-    // gulp.watch(['app/styles/**/*.scss'], ['styles:scss']);
-    // //gulp.watch(['{.tmp,app}/styles/**/*.css'], ['styles:css', server.notify]); 
-    // //Event object won't pass down to gulp.watch's callback if there's more than one of them. 
-    // //So the correct way to use server.notify is as following: 
-    // gulp.watch(['{.tmp,app}/styles/**/*.css'], function(event){
-    //     gulp.run('styles:css');
-    //     server.notify(event);
-    //     //pipe support is added for server.notify since v0.1.5, 
-    //     //see https://github.com/gimm/gulp-express#servernotifyevent 
-    // });
- 
-    // gulp.watch(['app/scripts/**/*.js'], ['jshint']);
-    // gulp.watch(['app/images/**/*'], server.notify);
-    // gulp.watch(['app.js', 'routes/**/*.js'], [server.run]);
+    gulp.watch(['./public/js/min/compiled.js'], server.notify);
+    gulp.watch(['./public/css/main.css'], server.notify);
+
+    gulp.watch(['./index.js'], server.notify);
+    gulp.watch(['./backend_app/**/*.*'], server.notify);
+
 });
 
-gulp.task('default', ['server']);
+// do initial build, watch js and scss and rebuild on change
+gulp.task('default', function() {
+    // gulp.start(['server', 'main-build', 'minify', 'style-build', 'start-nodemon']);
+    gulp.start(['server', 'main-build', 'minify', 'style-build']);
+    gulp.watch('./frontend_app/app/**/*.*', ['main-build', 'minify']);
+    gulp.watch('./frontend_app/scss/**/*.*', ['style-build']);
+});
