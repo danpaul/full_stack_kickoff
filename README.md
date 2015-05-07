@@ -7,7 +7,7 @@ The Stack:
 * [Browserify](http://browserify.org/)
 * [React](https://facebook.github.io/react/)
 
-The background uses Node/Express with basic session handling setup.
+The back end uses Node/Express with basic session handling setup.
 
 ## To Setup
 
