@@ -36,15 +36,6 @@ gulp.task('style-build', function(){
     .pipe(gulp.dest('./public/css'))
 })
 
-// start nodemon
-// gulp.task('start-nodemon', function () {
-//     nodemon({
-//         script: './index.js',
-//         ext: 'js html',
-//         env: { 'NODE_ENV': 'development' }
-//     })
-// })
-
 // watch appropriate files and reload after
 gulp.task('server', function () {
 
@@ -54,14 +45,10 @@ gulp.task('server', function () {
     gulp.watch(['./public/js/min/compiled.js'], server.notify);
     gulp.watch(['./public/css/main.css'], server.notify);
 
-    gulp.watch(['./index.js'], server.notify);
-    gulp.watch(['./backend_app/**/*.*'], server.notify);
-
 });
 
 // do initial build, watch js and scss and rebuild on change
 gulp.task('default', function() {
-    // gulp.start(['server', 'main-build', 'minify', 'style-build', 'start-nodemon']);
     gulp.start(['server', 'main-build', 'minify', 'style-build']);
     gulp.watch('./frontend_app/app/**/*.*', ['main-build', 'minify']);
     gulp.watch('./frontend_app/scss/**/*.*', ['style-build']);
