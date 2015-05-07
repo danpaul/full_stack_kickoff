@@ -7,7 +7,12 @@ var config = require('./config')
 *******************************************************************************/
 
 var express = require('express');
-var app = express()
+var app = module.exports.app = exports.app = express();
+
+if( config.enviornment === 'development' ){
+    app.use(require('connect-livereload')());
+}
+
 var bodyParser = require('body-parser')
 var session = require('express-session')
 

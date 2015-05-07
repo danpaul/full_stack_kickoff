@@ -7,10 +7,8 @@
 * `npm install`
 * `gulp`
 
-
 ## To Run
 ```
-NODE_ENV=development nodemon index.js
+NODE_ENV=development gulp
 NODE_ENV=production node index.js
 ```
-
