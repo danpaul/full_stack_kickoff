@@ -15,8 +15,6 @@ The back end uses Node/Express with basic session handling setup.
 * Download and unzip this repo in the project directory
 * cd to project root
 * `npm install`
-* cd to public root
-* `npm install`
 * `gulp`
 
 ## To Run

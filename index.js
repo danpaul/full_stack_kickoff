@@ -9,7 +9,7 @@ var config = require('./config')
 var express = require('express');
 var app = module.exports.app = exports.app = express();
 
-if( config.enviornment === 'development' ){
+if( config.environment === 'development' ){
     app.use(require('connect-livereload')());
 }
 
@@ -33,7 +33,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 *******************************************************************************/
 
-require('./backend_app/routes');
+require('./backend_app/routes')(app);
 
 var server = app.listen(config.port, function () {
     var host = server.address().address
